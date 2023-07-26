@@ -1,13 +1,15 @@
-import { Entity } from '@/core/domain/entity'
+import { AggregateRoot } from '@/core/domain/aggregate-root'
 import { type Replace } from '@/core/logic/replace'
+import { type Address } from './address.entity'
 
 export interface UserProps {
   name: string
   email: string
+  address: Address
   createdAt: Date
 }
 
-export class User extends Entity<UserProps> {
+export class User extends AggregateRoot<UserProps> {
   get email () {
     return this.props.email
   }
