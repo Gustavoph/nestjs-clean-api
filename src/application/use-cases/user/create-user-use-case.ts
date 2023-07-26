@@ -1,31 +1,19 @@
-import { Injectable } from '@nestjs/common'
+import { User } from '@/domain/entities/user.entity'
+import { type UsersRepository } from '@/application/contracts/user-repository'
+import { UserAlreadyRegisteredError } from '@/domain/errors/user/user-already-registered-error'
+import { type ICreateUserUseCase, type ICreateUserUseCaseRequest, type ICreateUserUseCaseResponse } from '@/domain/use-cases/create-user.use-case'
 
-import { type UseCase } from '@/application/ports/use-case'
-import { type UsersRepository } from '@/application/ports/user-repository'
-import { left, type Either, right } from '@/core/logic/either'
-import { UserAlreadyRegisteredError } from '../errors/user-already-registered-error'
-import { User } from '@/domain/entities/user'
-
-interface CreateUserUseCaseRequest {
-  name: string
-  email: string
-}
-
-type CreateUserUseCaseResponse = Either<UserAlreadyRegisteredError, { user: User }>
-
-@Injectable()
-export class CreateUserUseCase implements UseCase {
+export class CreateUserUseCase implements ICreateUserUseCase {
   constructor (private readonly usersRepository: UsersRepository) { }
-
-  async handle (request: CreateUserUseCaseRequest): Promise<CreateUserUseCaseResponse> {
+  async handle (request: ICreateUserUseCaseRequest): Promise<ICreateUserUseCaseResponse> {
     const { name, email } = request
 
     const userAlreadyExists = await this.usersRepository.findByEmail(email)
-    if (userAlreadyExists) return left(new UserAlreadyRegisteredError(name))
+    if (userAlreadyExists) throw new UserAlreadyRegisteredError(name)
 
     const user = User.create({ name, email })
     await this.usersRepository.create(user)
 
-    return right({ user })
+    return { user }
   }
 }

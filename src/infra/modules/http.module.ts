@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
-import { UseCasesModule } from '@/application/use-cases/use-case.module'
-import { UserController } from './controllers/user.controller'
+import { UseCasesModule } from '../modules/use-case.module'
+
+import { UserController } from '../http/presenters/controllers/user.controller'
 
 @Module({
   imports: [UseCasesModule],

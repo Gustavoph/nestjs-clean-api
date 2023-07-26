@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
-import { type UsersRepository } from '@/application/ports/user-repository'
+import { type UsersRepository } from '@/application/contracts/user-repository'
 import { type AsyncMaybe } from '@/core/logic/maybe'
-import { type User } from '@/domain/entities/user'
+import { type User } from '@/domain/entities/user.entity'
 import { PrismaService } from '../prisma.service'
 import { UserMapper } from '../mappers/user.mapper'
 
