@@ -1,5 +1,5 @@
 import { User } from '@/domain/entities/user.entity'
-import { type UsersRepository } from '@/application/contracts/user-repository'
+import { type UsersRepository } from '@/app/contracts/user-repository'
 import { UserAlreadyRegisteredError } from '@/domain/errors/user/user-already-registered-error'
 import { type ICreateUserUseCase, type ICreateUserUseCaseRequest, type ICreateUserUseCaseResponse } from '@/domain/use-cases/create-user.use-case'
 
