@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common'
+
 import { CreateUserUseCase } from './user/create-user-use-case'
 
+import { DatabaseModule } from '@/infra/database/database.module'
+
 @Module({
-  imports: [],
+  imports: [DatabaseModule],
   providers: [CreateUserUseCase],
   exports: [CreateUserUseCase]
 })

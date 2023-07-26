@@ -1,6 +1,7 @@
 import { CreateUserUseCase } from '@/application/use-cases/user/create-user-use-case'
-import { Controller, Post, HttpStatus, HttpCode } from '@nestjs/common'
+import { Controller, Post, HttpStatus, HttpCode, Res } from '@nestjs/common'
 import { CustomHttpException } from '../view-models/use-case-error.view-model'
+import { Response } from 'express'
 
 @Controller('user')
 export class UserController {
@@ -8,7 +9,7 @@ export class UserController {
 
   @Post()
   @HttpCode(201)
-  async create () {
+  async create (@Res() res: Response) {
     const output = await this.createUserUseCase.handle({
       name: 'Gustavo',
       email: 'gusta@mail.com'
@@ -17,5 +18,7 @@ export class UserController {
     if (output.isLeft()) {
       return new CustomHttpException(output.value.message, HttpStatus.BAD_REQUEST)
     }
+
+    // return res.status(HttpStatus.CREATED).send()
   }
 }

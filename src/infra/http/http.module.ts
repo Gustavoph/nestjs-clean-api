@@ -1,13 +1,9 @@
 import { Module } from '@nestjs/common'
 import { UseCasesModule } from '@/application/use-cases/use-case.module'
-import { DatabaseModule } from '../database/database.module'
 import { UserController } from './controllers/user.controller'
 
 @Module({
-  controllers: [UserController],
-  providers: [
-    DatabaseModule,
-    UseCasesModule
-  ]
+  imports: [UseCasesModule],
+  controllers: [UserController]
 })
 export class HttpModule {}
